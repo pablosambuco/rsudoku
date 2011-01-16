@@ -25,6 +25,11 @@ class Celda
   end
   public :valor=
   
+  def quitar(valor)
+    @posible = @posible - [valor]
+  end
+  public :quitar
+  
 end
 
 class Grupo
@@ -124,15 +129,15 @@ class Grupo
   public :to_s
   
   def quitar(valor)
-    cel1.posible = cel1.posible - [valor]
-    cel2.posible = cel2.posible - [valor]
-    cel3.posible = cel3.posible - [valor]
-    cel4.posible = cel4.posible - [valor]
-    cel5.posible = cel5.posible - [valor]
-    cel6.posible = cel6.posible - [valor]
-    cel7.posible = cel7.posible - [valor]
-    cel8.posible = cel8.posible - [valor]
-    cel9.posible = cel9.posible - [valor]
+    cel1.quitar(valor);
+    cel2.quitar(valor);
+    cel3.quitar(valor);
+    cel4.quitar(valor);
+    cel5.quitar(valor);
+    cel6.quitar(valor);
+    cel7.quitar(valor);
+    cel8.quitar(valor);
+    cel9.quitar(valor);
   end
   public :quitar
   
@@ -180,8 +185,6 @@ class Grupo
     @cel9 = cel9
   end
   public :cel9=
-  
-  public :to_s
   
 end 
 
@@ -1631,15 +1634,41 @@ class Tablero
     end
 
     self.pos(fila,columna).valor=valor
-    filas[fila].quitar(valor)
-    columnas[columna].quitar(valor)
-    cuadros[cuadro].quitar(valor)    
+    filas[fila-1].quitar(valor)
+    columnas[columna-1].quitar(valor)
+    cuadros[cuadro-1].quitar(valor)    
   end
   public :poner
   
 end
 
 tablero = Tablero.new
-tablero.poner(1,4,8)
+tablero.poner(1,2,4)
+tablero.poner(1,3,3)
+tablero.poner(1,5,2)
+tablero.poner(1,2,4)
+tablero.poner(1,7,8)
+tablero.poner(2,1,7)
+tablero.poner(2,2,9)
+tablero.poner(2,5,5)
+tablero.poner(2,6,4)
+tablero.poner(3,9,9)
+tablero.poner(4,4,6)
+tablero.poner(4,7,9)
+tablero.poner(4,9,7)
+tablero.poner(5,4,5)
+tablero.poner(5,6,8)
+tablero.poner(6,1,1)
+tablero.poner(6,3,7)
+tablero.poner(6,6,2)
+tablero.poner(7,1,3)
+tablero.poner(8,4,4)
+tablero.poner(8,5,6)
+tablero.poner(8,8,9)
+tablero.poner(8,9,1)
+tablero.poner(9,3,5)
+tablero.poner(9,5,8)
+tablero.poner(9,7,7)
+tablero.poner(9,8,2)
+
 puts tablero.to_s
-puts tablero.cel34.posible
