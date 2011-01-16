@@ -91,8 +91,8 @@ class Grupo
   end
   public :cel9
   
-  def pos(columna)
-     case columna
+  def pos(posicion)
+     case posicion
         when 1
           self.cel1
         when 2
@@ -1638,11 +1638,43 @@ class Tablero
     columnas[columna-1].quitar(valor)
     cuadros[cuadro-1].quitar(valor)    
   end
-  public :poner
+  public :poner  
+
+  def resolver
+    
+    begin
+      cambios = 0
+      for i in 1..9
+        for j in 1..9
+          celda = filas[i-1].pos(j-1)
+          celda = Celda.new
+          if(celda.posible.length == 1)
+            cambios = cambios + 1
+            poner(i,j,celda.posible[0])
+          end
+        end
+      end
+    end while(cambios!=0)
+
+  end
+  public :resolver
   
 end
 
 tablero = Tablero.new
+
+#tablero.cargar(
+#   0,4,3,0,2,0,8,0,0,
+#   7,9,0,0,5,4,0,0,0,
+#   0,0,0,0,0,0,0,0,9,
+#   0,0,0,6,0,0,9,0,7,
+#   0,0,0,5,0,8,0,0,0,
+#   1,0,7,0,0,2,0,0,0,
+#   3,0,0,0,0,0,0,0,0,
+#   0,0,0,4,6,0,0,9,1,
+#   0,0,5,0,8,0,7,2,0
+#)
+
 tablero.poner(1,2,4)
 tablero.poner(1,3,3)
 tablero.poner(1,5,2)
@@ -1671,4 +1703,12 @@ tablero.poner(9,5,8)
 tablero.poner(9,7,7)
 tablero.poner(9,8,2)
 
+
+tablero.poner()
+
+
+
+puts tablero.to_s
+tablero.resolver
+puts ''
 puts tablero.to_s
