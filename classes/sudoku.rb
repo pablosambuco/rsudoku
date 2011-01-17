@@ -1707,3 +1707,5 @@ puts tablero.to_s
 tablero.resolver
 puts ''
 puts tablero.to_s
+
+STDIN.read
