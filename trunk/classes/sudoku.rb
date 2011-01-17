@@ -1703,11 +1703,6 @@ tablero.poner(9,5,8)
 tablero.poner(9,7,7)
 tablero.poner(9,8,2)
 
-
-tablero.poner()
-
-
-
 puts tablero.to_s
 tablero.resolver
 puts ''
