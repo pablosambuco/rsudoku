@@ -94,23 +94,23 @@ class Grupo
   def pos(posicion)
      case posicion
         when 1
-          self.cel1
+          cel1
         when 2
-          self.cel2
+          cel2
         when 3
-          self.cel3
+          cel3
         when 4
-          self.cel4
+          cel4
         when 5
-          self.cel5
+          cel5
         when 6
-          self.cel6
+          cel6
         when 7
-          self.cel7
+          cel7
         when 8
-          self.cel8
+          cel8
         when 9
-          self.cel9
+          cel9
       end
   end
   public :pos
@@ -1601,7 +1601,7 @@ class Tablero
   end
   public :cel99=
   
-  def poner(fila,columna,valor)
+  def fccuadro(fila,columna)
     cuadro = 0
     case fila
       when 1,2,3
@@ -1632,11 +1632,22 @@ class Tablero
              cuadro = 9
         end
     end
+    cuadro
+  end
+  
+  public :fccuadro
+  
+  def poner(fila,columna,valor)
+    cuadro = fccuadro(fila,columna)
 
     self.pos(fila,columna).valor=valor
+
     filas[fila-1].quitar(valor)
     columnas[columna-1].quitar(valor)
-    cuadros[cuadro-1].quitar(valor)    
+    cuadros[cuadro-1].quitar(valor)  
+    
+    self.pos(fila,columna).posible=[valor]
+
   end
   public :poner  
 
@@ -1646,12 +1657,20 @@ class Tablero
       cambios = 0
       for i in 1..9
         for j in 1..9
-          celda = filas[i-1].pos(j-1)
-          celda = Celda.new
-          if(celda.posible.length == 1)
+          #celda = filas[i-1].pos(j-1)
+          celda = pos(i,j)
+          if(celda.posible.length == 1 and celda.posible[0] != celda.valor)
             cambios = cambios + 1
             poner(i,j,celda.posible[0])
+            puts 'Cambio!!'
+            puts ''
           end
+
+          puts ''
+          puts 'Fila/Columna: ' + i.to_s + '/' + j.to_s
+          puts 'Cuadro: ' + fccuadro(i,j).to_s
+          puts 'Contenido: ' + celda.posible.to_s           
+
         end
       end
     end while(cambios!=0)
@@ -1662,18 +1681,6 @@ class Tablero
 end
 
 tablero = Tablero.new
-
-#tablero.cargar(
-#   0,4,3,0,2,0,8,0,0,
-#   7,9,0,0,5,4,0,0,0,
-#   0,0,0,0,0,0,0,0,9,
-#   0,0,0,6,0,0,9,0,7,
-#   0,0,0,5,0,8,0,0,0,
-#   1,0,7,0,0,2,0,0,0,
-#   3,0,0,0,0,0,0,0,0,
-#   0,0,0,4,6,0,0,9,1,
-#   0,0,5,0,8,0,7,2,0
-#)
 
 tablero.poner(1,2,4)
 tablero.poner(1,3,3)
@@ -1708,4 +1715,3 @@ tablero.resolver
 puts ''
 puts tablero.to_s
 
-STDIN.read
