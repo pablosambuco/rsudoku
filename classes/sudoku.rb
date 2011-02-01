@@ -27,6 +27,7 @@ class Celda
   public :valor=
   
   def quitar(valor)
+    if @posible.includes
     @posible = @posible - [valor]
   end
   public :quitar
@@ -54,30 +55,16 @@ class Grupo
   end
   public :celdas=
   
-  def to_s
-    celdas[0].to_s + ' ' + 
-    celdas[1].to_s + ' ' +
-    celdas[2].to_s + ' ' +
-    celdas[3].to_s + ' ' +
-    celdas[4].to_s + ' ' +
-    celdas[5].to_s + ' ' +
-    celdas[6].to_s + ' ' +
-    celdas[7].to_s + ' ' +
-    celdas[8].to_s + ' ' +
-    celdas[9].to_s + ' ' 
-  end
-  public :to_s
-  
   def quitar(valor)
-    celdas[0].quitar(valor);
-    celdas[1].quitar(valor);
-    celdas[2].quitar(valor);
-    celdas[3].quitar(valor);
-    celdas[4].quitar(valor);
-    celdas[5].quitar(valor);
-    celdas[6].quitar(valor);
-    celdas[7].quitar(valor);
-    celdas[8].quitar(valor);
+    celdas[0].quitar(valor)
+    celdas[1].quitar(valor)
+    celdas[2].quitar(valor)
+    celdas[3].quitar(valor)
+    celdas[4].quitar(valor)
+    celdas[5].quitar(valor)
+    celdas[6].quitar(valor)
+    celdas[7].quitar(valor)
+    celdas[8].quitar(valor)
   end
   public :quitar
   
@@ -98,6 +85,49 @@ class Grupo
           cambios = cambios + 1
         end
       end
+    end
+
+    for i in 0..7
+      if celdas[i].posible.length == 2
+         for j in (i+1)..8
+            if celdas[j].posible.length == 2
+               if celdas[i].posible[0] == celdas[j].posible[0] and celdas[i].posible[1] == celdas[j].posible[1]
+                  for k in 0..8
+                     if k != i and k != j
+                        celdas[k].quitar(celdas[i].posible[0])
+                        celdas[k].quitar(celdas[i].posible[1])
+              #          cambios = cambios + 1
+                     end 
+                  end
+               end
+            end
+         end
+      end 
+    end
+
+    for i in 0..6
+      if celdas[i].posible.length == 3
+         for j in (i+1)..7
+            if celdas[j].posible.length == 3
+               if celdas[i].posible[0] == celdas[j].posible[0] and celdas[i].posible[1] == celdas[j].posible[1] and celdas[i].posible[2] == celdas[j].posible[2]
+                  for k in (j+1)..8
+                     if celdas[k].posible.length == 3
+                        if celdas[i].posible[0] == celdas[k].posible[0] and celdas[i].posible[1] == celdas[k].posible[1] and celdas[i].posible[2] == celdas[k].posible[2]
+                           for l in 0..8
+                              if l != i and l != j and l != k
+                                celdas[l].quitar(celdas[i].posible[0])
+                                celdas[l].quitar(celdas[i].posible[1])
+                                celdas[l].quitar(celdas[i].posible[2])
+                                cambios = cambios + 1
+                              end
+                           end
+                        end
+                     end 
+                  end
+               end
+            end
+         end
+      end 
     end
     cambios
   end
@@ -271,15 +301,31 @@ class Tablero
   public :cuadros
   
   def to_s
-    '    ' + @filas[0].to_s + '
-    ' + @filas[1].to_s + '
-    ' + @filas[2].to_s + '
-    ' + @filas[3].to_s + '
-    ' + @filas[4].to_s + '
-    ' + @filas[5].to_s + '
-    ' + @filas[6].to_s + '
-    ' + @filas[7].to_s + '
-    ' + @filas[8].to_s     
+    retorno = ""
+    maximo = 0
+    for i in 0..8
+       for j in 0..8
+          if filas[i].celdas[j].posible.length > maximo
+             maximo = filas[i].celdas[j].posible.length
+          end
+       end
+    end 
+    for i in 0..8
+       for j in 0..8
+          retorno = retorno + "["
+          actual = filas[i].celdas[j].posible.length
+          espacios = maximo - actual + 1
+          for k in 1..espacios
+             retorno = retorno + " "
+          end
+          for k in filas[i].celdas[j].posible
+             retorno = retorno + k.to_s
+          end
+          retorno = retorno + " ] "
+       end
+       retorno = retorno + "\n"
+    end 
+    retorno
   end 
   public :to_s
   
@@ -367,6 +413,7 @@ class Tablero
       for i in 1..9
         cambios = cambios + cuadros[i-1].revisar
       end
+
     end while(cambios!=0)
     
   end
@@ -379,7 +426,7 @@ tablero = Tablero.new
 
 #Sudoku N 1897
 
-
+  
 
 #Basico
 #tablero.cargar([
@@ -395,17 +442,17 @@ tablero = Tablero.new
 #               ])
 
 #Intermedio
-#tablero.cargar([
-#               [0,4,3,0,2,0,8,0,0], 
-#               [7,9,0,0,5,4,0,0,0],
-#               [0,0,0,0,0,0,0,0,9],
-#               [0,0,0,6,0,0,9,0,7],
-#               [0,0,0,5,0,8,0,0,0],
-#               [1,0,7,0,0,2,0,0,0],
-#               [3,0,0,0,0,0,0,0,0],
-#               [0,0,0,4,6,0,0,9,1],
-#               [0,0,5,0,8,0,7,2,0]
-#               ])
+tablero.cargar([
+               [0,4,3,0,2,0,8,0,0], 
+               [7,9,0,0,5,4,0,0,0],
+               [0,0,0,0,0,0,0,0,9],
+               [0,0,0,6,0,0,9,0,7],
+               [0,0,0,5,0,8,0,0,0],
+               [1,0,7,0,0,2,0,0,0],
+               [3,0,0,0,0,0,0,0,0],
+               [0,0,0,4,6,0,0,9,1],
+               [0,0,5,0,8,0,7,2,0]
+               ])
 
 #Avanzado
 #tablero.cargar([
@@ -420,18 +467,17 @@ tablero = Tablero.new
 #               [0,0,3,0,7,6,0,0,8]
 #               ])
 
-tablero.cargar([
-               [8,0,0,0,0,4,0,0,6],
-               [2,0,0,0,5,0,1,0,0],
-               [9,0,0,7,0,0,0,3,0],
-               [5,0,0,0,0,0,0,0,9],
-               [0,0,0,4,0,2,0,0,0],
-               [1,0,0,0,0,0,0,0,8],
-               [0,8,0,0,0,6,0,0,2],
-               [0,0,7,0,3,0,0,0,5],
-               [4,0,0,9,0,0,0,0,1]
-               ])
-
+#tablero.cargar([
+#               [8,0,0,0,0,4,0,0,6],
+#               [2,0,0,0,5,0,1,0,0],
+#               [9,0,0,7,0,0,0,3,0],
+#               [5,0,0,0,0,0,0,0,9],
+#               [0,0,0,4,0,2,0,0,0],
+#               [1,0,0,0,0,0,0,0,8],
+#               [0,8,0,0,0,6,0,0,2],
+#               [0,0,7,0,3,0,0,0,5],
+#               [4,0,0,9,0,0,0,0,1]
+#               ])
 
 
 tablero.resolver
