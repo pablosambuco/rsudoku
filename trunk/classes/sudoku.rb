@@ -74,7 +74,7 @@ class Grupo
   def quitar(valor)
     retorno = 0
     for i in 0..8
-      retorno = retorno + celdas[i].quitar(valor)
+      retorno += celdas[i].quitar(valor)
     end
     retorno
   end
@@ -90,13 +90,13 @@ class Grupo
         for k in celdas
           for l in k.posible
             if (i != k and j == l)
-              contador = contador + 1
+              contador += 1
             end
           end
         end
         if (contador == 0 and i.valor != j)  
           i.posible = [j]
-          cambios = cambios + 1
+          cambios += 1
         end
       end
     end
@@ -177,19 +177,20 @@ class Tablero
   public :cuadros
   
   def lineas(inicio,medio,bifurcacion,fin,maximo)
-    retorno = inicio + medio
+    retorno = ""
+    retorno += inicio + medio
     for j in 0..8
       if j % 3 == 0 and j>0
-        retorno = retorno + bifurcacion
+        retorno += bifurcacion
       end
       for k in 0..(maximo)
-        retorno = retorno + medio
+        retorno += medio
       end
       if j % 3 == 0 and j>0
-        retorno = retorno + medio
+        retorno += medio
       end
     end
-    retorno = retorno + fin + "\n"   
+    retorno += fin + "\n"   
     retorno
   end
   
@@ -206,32 +207,32 @@ class Tablero
     end
     
     #Primera Linea
-    retorno = retorno + lineas("╔","═","╦","╗",maximo)
-   
+    retorno += lineas("╔","═","╦","╗",maximo)
+    
     for i in 0..8
       if i % 3 == 0 and i > 0
-        retorno = retorno + lineas("╠","═","╬","╣",maximo)
+        retorno += lineas("╠","═","╬","╣",maximo)
       end
       for j in 0..8
         if j % 3 == 0
-          retorno = retorno + "║ "
+          retorno += "║ "
         end
         actual = filas[i].celdas[j].posible.length
         espacios = maximo - actual
         for k in 1..espacios
-          retorno = retorno + "."
+          retorno += "."
         end
         for k in filas[i].celdas[j].posible
-          retorno = retorno + k.to_s
+          retorno += k.to_s
         end
-        retorno = retorno + " "
+        retorno += " "
       end
-      retorno = retorno + "║"
-      retorno = retorno + "\n"
+      retorno += "║"
+      retorno += "\n"
     end   
     #Ultima Linea
-    retorno = retorno + lineas("╚","═","╩","╝",maximo)
-
+    retorno += lineas("╚","═","╩","╝",maximo)
+    
     retorno
   end 
   public :to_s
@@ -274,7 +275,7 @@ class Tablero
           celda = filas[i].celdas[j]
           v=celda.posible[0]
           if(celda.posible.length == 1 and celda.valor != v)
-            cambios = cambios + 1
+            cambios += 1
             
             k = fccuadro(i,j)    
             
@@ -287,13 +288,13 @@ class Tablero
         end
       end
       for i in 0..8
-        cambios = cambios + filas[i].revisar
+        cambios += filas[i].revisar
       end
       for i in 0..8
-        cambios = cambios + columnas[i].revisar
+        cambios += columnas[i].revisar
       end
       for i in 0..8
-        cambios = cambios + cuadros[i].revisar
+        cambios += cuadros[i].revisar
       end
     end while(cambios!=0)
   end
