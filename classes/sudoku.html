@@ -1,82 +1,96 @@
 <html>
 <head>
-  <title>Documentos/sudoku/classes/sudoku.rb</title>
+  <title>sudoku.rb</title>
 </head>
 <body bgcolor="#ffffff" text="#000000">
 <pre>
-<strong>class<font color="#2040a0"><strong> Celda</strong></font></strong>
-  
-  <strong>def<font color="ff0000"> initialize</font></strong>
+<font color="#444444">#Clase celda
+</font><strong>class<font color="#2040a0"><strong> Celda</strong></font></strong>
+
+  <font color="#444444">#Initialize  
+  </font><strong>def<font color="ff0000"> initialize</font></strong>
     <font color="#2040a0">@valor</font> <font color="4444FF">=</font> <font color="#FF0000">0</font>
-    <font color="#2040a0">@posible</font> <font color="4444FF">=</font> <font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">3</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">6</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF"><strong>]</strong></font>
+    <font color="#2040a0">@posible</font> <font color="4444FF">=</font> <font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>|i| i<font color="4444FF">+</font><font color="#FF0000">1</font><font color="4444FF"><strong>}</strong></font>
   <strong>end</strong>
   
-  <strong>def<font color="ff0000"> posible</font></strong>
+  <font color="#444444">#Lectura del atributo @posible
+  </font><strong>def<font color="ff0000"> posible</font></strong>
     <font color="#2040a0">@posible</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>posible
-  
-  <strong>def<font color="ff0000"> posible</font></strong><font color="4444FF">=</font> posible
+
+  <font color="#444444">#Escritura del atributo @posible  
+  </font><strong>def<font color="ff0000"> posible</font></strong><font color="4444FF">=</font> posible
     <font color="#2040a0">@posible</font> <font color="4444FF">=</font> posible
   <strong>end</strong>
   public <font color="4444FF">:</font>posible<font color="4444FF">=</font>
   
-  <strong>def<font color="ff0000"> valor</font></strong>
+  <font color="#444444">#Lectura del atributo @valor
+  </font><strong>def<font color="ff0000"> valor</font></strong>
     <font color="#2040a0">@valor</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>valor
   
-  <strong>def<font color="ff0000"> valor</font></strong><font color="4444FF">=</font>valor
+  <font color="#444444">#Escritura del atributo @valor
+  </font><strong>def<font color="ff0000"> valor</font></strong><font color="4444FF">=</font>valor
     <font color="#2040a0">@valor</font> <font color="4444FF">=</font> valor
     <font color="#2040a0">@posible</font> <font color="4444FF">=</font> <font color="4444FF"><strong>[</strong></font>valor<font color="4444FF"><strong>]</strong></font>    
   <strong>end</strong>
   public <font color="4444FF">:</font>valor<font color="4444FF">=</font>
   
-  <strong>def<font color="ff0000"> quitar</font><font color="2040a0"><font color="4444FF">(</font>valor<font color="4444FF">)</font></font></strong>
-    <strong>if</strong> <font color="#2040a0">@posible.includes</font>
-    <font color="#2040a0">@posible</font> <font color="4444FF">=</font> <font color="#2040a0">@posible</font> - <font color="4444FF"><strong>[</strong></font>valor<font color="4444FF"><strong>]</strong></font>
+  <font color="#444444">#Metodo quitar. Elimina el valor de los posibles
+  </font><strong>def<font color="ff0000"> quitar</font><font color="2040a0"><font color="4444FF">(</font>valor<font color="4444FF">)</font></font></strong>
+    retorno<font color="4444FF">=</font><font color="#FF0000">0</font>
+    <strong>if</strong> <font color="#2040a0">@posible.delete</font><font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font><font color="4444FF"><strong>{</strong></font><strong>false</strong><font color="4444FF"><strong>}</strong></font>
+       retorno<font color="4444FF">=</font><font color="#FF0000">1</font>
+    <strong>end</strong>
+    retorno
   <strong>end</strong>
   public <font color="4444FF">:</font>quitar
   
-  <strong>def<font color="ff0000"> to_s</font></strong>
+  <font color="#444444">#Metodo to_s. Convierte el texto para imprimir
+  </font><strong>def<font color="ff0000"> to_s</font></strong>
     <font color="#2040a0">@valor.to_s</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>to_s
   
 <strong>end</strong>
 
-<strong>class<font color="#2040a0"><strong> Grupo</strong></font></strong>
+<font color="#444444">#Clase grupo, implementacion de filas, columnnas y cuadros
+</font><strong>class<font color="#2040a0"><strong> Grupo</strong></font></strong>
   
-  <strong>def<font color="ff0000"> initialize</font></strong>
+  <font color="#444444">#Initialize
+  </font><strong>def<font color="ff0000"> initialize</font></strong>
     <font color="#2040a0">@celdas</font> <font color="4444FF">=</font> <strong>nil</strong>
   <strong>end</strong>
   
-  <strong>def<font color="ff0000"> celdas</font></strong>
+  <font color="#444444">#Lectura del atributo @celdas
+  </font><strong>def<font color="ff0000"> celdas</font></strong>
     <font color="#2040a0">@celdas</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>celdas
   
-  <strong>def<font color="ff0000"> celdas</font></strong><font color="4444FF">=</font><font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>)</strong></font>
+  <font color="#444444">#Escritura del atributo @celdas
+  </font><strong>def<font color="ff0000"> celdas</font></strong><font color="4444FF">=</font><font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>)</strong></font>
     <font color="#2040a0">@celdas</font><font color="4444FF">=</font>celdas
   <strong>end</strong>
   public <font color="4444FF">:</font>celdas<font color="4444FF">=</font>
   
-  <strong>def<font color="ff0000"> quitar</font><font color="2040a0"><font color="4444FF">(</font>valor<font color="4444FF">)</font></font></strong>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">3</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">4</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">5</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">6</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">7</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
-    celdas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">8</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
+  <font color="#444444">#Metodo quitar. Elimina el valor de los posibles para las celdas del grupo
+  </font><strong>def<font color="ff0000"> quitar</font><font color="2040a0"><font color="4444FF">(</font>valor<font color="4444FF">)</font></font></strong>
+    retorno <font color="4444FF">=</font> <font color="#FF0000">0</font>
+    <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+       retorno <font color="4444FF">=</font> retorno <font color="4444FF">+</font> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>valor<font color="4444FF"><strong>)</strong></font>
+    <strong>end</strong>
+    retorno
   <strong>end</strong>
   public <font color="4444FF">:</font>quitar
   
-  <strong>def<font color="ff0000"> revisar</font></strong>
+  <font color="#444444">#Metodo revisar. Aplica los valores posibles no impactados en las celdasceldas[i].posibles.length
+  </font><strong>def<font color="ff0000"> revisar</font></strong>
     cambios <font color="4444FF">=</font> <font color="#FF0000">0</font>
-    <strong>for</strong> i <strong>in</strong> celdas
+    <font color="#444444">#verifico valores posibles únicos en el grupo
+    </font><strong>for</strong> i <strong>in</strong> celdas
       <strong>for</strong> j <strong>in</strong> i.posible
         contador <font color="4444FF">=</font> <font color="#FF0000">0</font>
         <strong>for</strong> k <strong>in</strong> celdas
@@ -93,220 +107,83 @@
       <strong>end</strong>
     <strong>end</strong>
 
-    <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..7</font>
-      <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">==</font> <font color="#FF0000">2</font>
-         <strong>for</strong> j <strong>in</strong> <font color="4444FF"><strong>(</strong></font>i<font color="4444FF">+</font><font color="#FF0000">1</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">..</font><font color="#FF0000">8</font>
-            <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">==</font> <font color="#FF0000">2</font>
-               <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font> <strong>and</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>
-                  <strong>for</strong> k <strong>in</strong> <font color="#FF0000">0..8</font>
-                     <strong>if</strong> k <font color="4444FF">!=</font> i <strong>and</strong> k <font color="4444FF">!=</font> j
-                        celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
-                        celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
-              <font color="#444444">#          cambios = cambios + 1
-                     </font><strong>end</strong> 
-                  <strong>end</strong>
-               <strong>end</strong>
-            <strong>end</strong>
-         <strong>end</strong>
-      <strong>end</strong> 
-    <strong>end</strong>
+    <font color="#444444">#busco si los N valores posibles de una celda se repiten exactamente en N-1 otras
+    #si es asi, los elimino como posibles del resto de las celdas
+    </font><strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+       todas <font color="4444FF">=</font> <font color="a52a2a"><strong>Array</strong></font>.new
+       <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">&gt;</font> <font color="#FF0000">1</font>
+          <strong>for</strong> j <strong>in</strong> <font color="#FF0000">0..8</font>
+             <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible
+                todas <font color="4444FF">&lt;&lt;</font> j
+             <strong>end</strong>
+          <strong>end</strong>
+          <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">==</font> todas.length
+             <strong>for</strong> j <strong>in</strong> <font color="#FF0000">0..8</font>
+                todas.delete<font color="4444FF"><strong>(</strong></font>j<font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible <font color="4444FF">=</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible - celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible;<font color="4444FF"><strong>}</strong></font>
+             <strong>end</strong>
+          <strong>end</strong>
+       <strong>end</strong>
+    <strong>end</strong>    
 
-    <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..6</font>
-      <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">==</font> <font color="#FF0000">3</font>
-         <strong>for</strong> j <strong>in</strong> <font color="4444FF"><strong>(</strong></font>i<font color="4444FF">+</font><font color="#FF0000">1</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">..</font><font color="#FF0000">7</font>
-            <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">==</font> <font color="#FF0000">3</font>
-               <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font> <strong>and</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font> <strong>and</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font>
-                  <strong>for</strong> k <strong>in</strong> <font color="4444FF"><strong>(</strong></font>j<font color="4444FF">+</font><font color="#FF0000">1</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">..</font><font color="#FF0000">8</font>
-                     <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.posible.length <font color="4444FF">==</font> <font color="#FF0000">3</font>
-                        <strong>if</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font> <strong>and</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font> <strong>and</strong> celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font> <font color="4444FF">==</font> celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font>
-                           <strong>for</strong> l <strong>in</strong> <font color="#FF0000">0..8</font>
-                              <strong>if</strong> l <font color="4444FF">!=</font> i <strong>and</strong> l <font color="4444FF">!=</font> j <strong>and</strong> l <font color="4444FF">!=</font> k
-                                celdas<font color="4444FF"><strong>[</strong></font>l<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
-                                celdas<font color="4444FF"><strong>[</strong></font>l<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
-                                celdas<font color="4444FF"><strong>[</strong></font>l<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
-                                cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> <font color="#FF0000">1</font>
-                              <strong>end</strong>
-                           <strong>end</strong>
-                        <strong>end</strong>
-                     <strong>end</strong> 
-                  <strong>end</strong>
-               <strong>end</strong>
-            <strong>end</strong>
-         <strong>end</strong>
-      <strong>end</strong> 
-    <strong>end</strong>
     cambios
   <strong>end</strong>
   public <font color="4444FF">:</font>revisar
 <strong>end</strong> 
 
-<strong>class<font color="#2040a0"><strong> Tablero</strong></font></strong>
+<font color="#444444">#Clase tablero. Incluye el juego completo
+</font><strong>class<font color="#2040a0"><strong> Tablero</strong></font></strong>
   
-  <strong>def<font color="ff0000"> initialize</font></strong>
+  <font color="#444444">#Initialize
+  </font><strong>def<font color="ff0000"> initialize</font></strong>
     
-    <font color="#2040a0">@cel11</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel12</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel13</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel14</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel15</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel16</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel17</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel18</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel19</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel21</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel22</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel23</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel24</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel25</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel26</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel27</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel28</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel29</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel31</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel32</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel33</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel34</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel35</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel36</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel37</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel38</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel39</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel41</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel42</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel43</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel44</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel45</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel46</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel47</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel48</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel49</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel40</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel51</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel52</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel53</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel54</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel55</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel56</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel57</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel58</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel59</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel61</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel62</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel63</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel64</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel65</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel66</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel67</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel68</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel69</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel71</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel72</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel73</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel74</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel75</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel76</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel77</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel78</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel79</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel81</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel82</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel83</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel84</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel85</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel86</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel87</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel88</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel89</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel91</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel92</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel93</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel94</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel95</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel96</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel97</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel98</font> <font color="4444FF">=</font> Celda.new
-    <font color="#2040a0">@cel99</font> <font color="4444FF">=</font> Celda.new
+    <font color="#2040a0">@filas</font> <font color="4444FF">=</font>    <font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>Grupo.new<font color="4444FF"><strong>}</strong></font>
+    <font color="#2040a0">@columnas</font> <font color="4444FF">=</font> <font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>Grupo.new<font color="4444FF"><strong>}</strong></font>
+    <font color="#2040a0">@cuadros</font> <font color="4444FF">=</font>  <font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>Grupo.new<font color="4444FF"><strong>}</strong></font>
     
-    <font color="#2040a0">@col1</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col2</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col3</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col4</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col5</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col6</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col7</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col8</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@col9</font> <font color="4444FF">=</font> Grupo.new
-    
-    <font color="#2040a0">@fil1</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil2</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil3</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil4</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil5</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil6</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil7</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil8</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@fil9</font> <font color="4444FF">=</font> Grupo.new    
-    
-    <font color="#2040a0">@cua1</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua2</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua3</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua4</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua5</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua6</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua7</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua8</font> <font color="4444FF">=</font> Grupo.new
-    <font color="#2040a0">@cua9</font> <font color="4444FF">=</font> Grupo.new
-    
-    <font color="#2040a0">@columnas</font> <font color="4444FF">=</font> <font color="4444FF"><strong>[</strong></font><font color="#2040a0">@col1</font><font color="4444FF">,</font> <font color="#2040a0">@col2</font><font color="4444FF">,</font> <font color="#2040a0">@col3</font><font color="4444FF">,</font> <font color="#2040a0">@col4</font><font color="4444FF">,</font> <font color="#2040a0">@col5</font><font color="4444FF">,</font> <font color="#2040a0">@col6</font><font color="4444FF">,</font> <font color="#2040a0">@col7</font><font color="4444FF">,</font> <font color="#2040a0">@col8</font><font color="4444FF">,</font> <font color="#2040a0">@col9</font><font color="4444FF"><strong>]</strong></font>
-    <font color="#2040a0">@filas</font> <font color="4444FF">=</font>    <font color="4444FF"><strong>[</strong></font><font color="#2040a0">@fil1</font><font color="4444FF">,</font> <font color="#2040a0">@fil2</font><font color="4444FF">,</font> <font color="#2040a0">@fil3</font><font color="4444FF">,</font> <font color="#2040a0">@fil4</font><font color="4444FF">,</font> <font color="#2040a0">@fil5</font><font color="4444FF">,</font> <font color="#2040a0">@fil6</font><font color="4444FF">,</font> <font color="#2040a0">@fil7</font><font color="4444FF">,</font> <font color="#2040a0">@fil8</font><font color="4444FF">,</font> <font color="#2040a0">@fil9</font><font color="4444FF"><strong>]</strong></font>
-    <font color="#2040a0">@cuadros</font> <font color="4444FF">=</font>  <font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cua1</font><font color="4444FF">,</font> <font color="#2040a0">@cua2</font><font color="4444FF">,</font> <font color="#2040a0">@cua3</font><font color="4444FF">,</font> <font color="#2040a0">@cua4</font><font color="4444FF">,</font> <font color="#2040a0">@cua5</font><font color="4444FF">,</font> <font color="#2040a0">@cua6</font><font color="4444FF">,</font> <font color="#2040a0">@cua7</font><font color="4444FF">,</font> <font color="#2040a0">@cua8</font><font color="4444FF">,</font> <font color="#2040a0">@cua9</font><font color="4444FF"><strong>]</strong></font>
-    
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel11</font><font color="4444FF">,</font><font color="#2040a0">@cel12</font><font color="4444FF">,</font><font color="#2040a0">@cel13</font><font color="4444FF">,</font><font color="#2040a0">@cel14</font><font color="4444FF">,</font><font color="#2040a0">@cel15</font><font color="4444FF">,</font><font color="#2040a0">@cel16</font><font color="4444FF">,</font><font color="#2040a0">@cel17</font><font color="4444FF">,</font><font color="#2040a0">@cel18</font><font color="4444FF">,</font><font color="#2040a0">@cel19</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel21</font><font color="4444FF">,</font><font color="#2040a0">@cel22</font><font color="4444FF">,</font><font color="#2040a0">@cel23</font><font color="4444FF">,</font><font color="#2040a0">@cel24</font><font color="4444FF">,</font><font color="#2040a0">@cel25</font><font color="4444FF">,</font><font color="#2040a0">@cel26</font><font color="4444FF">,</font><font color="#2040a0">@cel27</font><font color="4444FF">,</font><font color="#2040a0">@cel28</font><font color="4444FF">,</font><font color="#2040a0">@cel29</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel31</font><font color="4444FF">,</font><font color="#2040a0">@cel32</font><font color="4444FF">,</font><font color="#2040a0">@cel33</font><font color="4444FF">,</font><font color="#2040a0">@cel34</font><font color="4444FF">,</font><font color="#2040a0">@cel35</font><font color="4444FF">,</font><font color="#2040a0">@cel36</font><font color="4444FF">,</font><font color="#2040a0">@cel37</font><font color="4444FF">,</font><font color="#2040a0">@cel38</font><font color="4444FF">,</font><font color="#2040a0">@cel39</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">3</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel41</font><font color="4444FF">,</font><font color="#2040a0">@cel42</font><font color="4444FF">,</font><font color="#2040a0">@cel43</font><font color="4444FF">,</font><font color="#2040a0">@cel44</font><font color="4444FF">,</font><font color="#2040a0">@cel45</font><font color="4444FF">,</font><font color="#2040a0">@cel46</font><font color="4444FF">,</font><font color="#2040a0">@cel47</font><font color="4444FF">,</font><font color="#2040a0">@cel48</font><font color="4444FF">,</font><font color="#2040a0">@cel49</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">4</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel51</font><font color="4444FF">,</font><font color="#2040a0">@cel52</font><font color="4444FF">,</font><font color="#2040a0">@cel53</font><font color="4444FF">,</font><font color="#2040a0">@cel54</font><font color="4444FF">,</font><font color="#2040a0">@cel55</font><font color="4444FF">,</font><font color="#2040a0">@cel56</font><font color="4444FF">,</font><font color="#2040a0">@cel57</font><font color="4444FF">,</font><font color="#2040a0">@cel58</font><font color="4444FF">,</font><font color="#2040a0">@cel59</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">5</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel61</font><font color="4444FF">,</font><font color="#2040a0">@cel62</font><font color="4444FF">,</font><font color="#2040a0">@cel63</font><font color="4444FF">,</font><font color="#2040a0">@cel64</font><font color="4444FF">,</font><font color="#2040a0">@cel65</font><font color="4444FF">,</font><font color="#2040a0">@cel66</font><font color="4444FF">,</font><font color="#2040a0">@cel67</font><font color="4444FF">,</font><font color="#2040a0">@cel68</font><font color="4444FF">,</font><font color="#2040a0">@cel69</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">6</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel71</font><font color="4444FF">,</font><font color="#2040a0">@cel72</font><font color="4444FF">,</font><font color="#2040a0">@cel73</font><font color="4444FF">,</font><font color="#2040a0">@cel74</font><font color="4444FF">,</font><font color="#2040a0">@cel75</font><font color="4444FF">,</font><font color="#2040a0">@cel76</font><font color="4444FF">,</font><font color="#2040a0">@cel77</font><font color="4444FF">,</font><font color="#2040a0">@cel78</font><font color="4444FF">,</font><font color="#2040a0">@cel79</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">7</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel81</font><font color="4444FF">,</font><font color="#2040a0">@cel82</font><font color="4444FF">,</font><font color="#2040a0">@cel83</font><font color="4444FF">,</font><font color="#2040a0">@cel84</font><font color="4444FF">,</font><font color="#2040a0">@cel85</font><font color="4444FF">,</font><font color="#2040a0">@cel86</font><font color="4444FF">,</font><font color="#2040a0">@cel87</font><font color="4444FF">,</font><font color="#2040a0">@cel88</font><font color="4444FF">,</font><font color="#2040a0">@cel89</font><font color="4444FF"><strong>]</strong></font>
-    filas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">8</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel91</font><font color="4444FF">,</font><font color="#2040a0">@cel92</font><font color="4444FF">,</font><font color="#2040a0">@cel93</font><font color="4444FF">,</font><font color="#2040a0">@cel94</font><font color="4444FF">,</font><font color="#2040a0">@cel95</font><font color="4444FF">,</font><font color="#2040a0">@cel96</font><font color="4444FF">,</font><font color="#2040a0">@cel97</font><font color="4444FF">,</font><font color="#2040a0">@cel98</font><font color="4444FF">,</font><font color="#2040a0">@cel99</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel11</font><font color="4444FF">,</font><font color="#2040a0">@cel21</font><font color="4444FF">,</font><font color="#2040a0">@cel31</font><font color="4444FF">,</font><font color="#2040a0">@cel41</font><font color="4444FF">,</font><font color="#2040a0">@cel51</font><font color="4444FF">,</font><font color="#2040a0">@cel61</font><font color="4444FF">,</font><font color="#2040a0">@cel71</font><font color="4444FF">,</font><font color="#2040a0">@cel81</font><font color="4444FF">,</font><font color="#2040a0">@cel91</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel12</font><font color="4444FF">,</font><font color="#2040a0">@cel22</font><font color="4444FF">,</font><font color="#2040a0">@cel32</font><font color="4444FF">,</font><font color="#2040a0">@cel42</font><font color="4444FF">,</font><font color="#2040a0">@cel52</font><font color="4444FF">,</font><font color="#2040a0">@cel62</font><font color="4444FF">,</font><font color="#2040a0">@cel72</font><font color="4444FF">,</font><font color="#2040a0">@cel82</font><font color="4444FF">,</font><font color="#2040a0">@cel92</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel13</font><font color="4444FF">,</font><font color="#2040a0">@cel23</font><font color="4444FF">,</font><font color="#2040a0">@cel33</font><font color="4444FF">,</font><font color="#2040a0">@cel43</font><font color="4444FF">,</font><font color="#2040a0">@cel53</font><font color="4444FF">,</font><font color="#2040a0">@cel63</font><font color="4444FF">,</font><font color="#2040a0">@cel73</font><font color="4444FF">,</font><font color="#2040a0">@cel83</font><font color="4444FF">,</font><font color="#2040a0">@cel93</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">3</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel14</font><font color="4444FF">,</font><font color="#2040a0">@cel24</font><font color="4444FF">,</font><font color="#2040a0">@cel34</font><font color="4444FF">,</font><font color="#2040a0">@cel44</font><font color="4444FF">,</font><font color="#2040a0">@cel54</font><font color="4444FF">,</font><font color="#2040a0">@cel64</font><font color="4444FF">,</font><font color="#2040a0">@cel74</font><font color="4444FF">,</font><font color="#2040a0">@cel84</font><font color="4444FF">,</font><font color="#2040a0">@cel94</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">4</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel15</font><font color="4444FF">,</font><font color="#2040a0">@cel25</font><font color="4444FF">,</font><font color="#2040a0">@cel35</font><font color="4444FF">,</font><font color="#2040a0">@cel45</font><font color="4444FF">,</font><font color="#2040a0">@cel55</font><font color="4444FF">,</font><font color="#2040a0">@cel65</font><font color="4444FF">,</font><font color="#2040a0">@cel75</font><font color="4444FF">,</font><font color="#2040a0">@cel85</font><font color="4444FF">,</font><font color="#2040a0">@cel95</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">5</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel16</font><font color="4444FF">,</font><font color="#2040a0">@cel26</font><font color="4444FF">,</font><font color="#2040a0">@cel36</font><font color="4444FF">,</font><font color="#2040a0">@cel46</font><font color="4444FF">,</font><font color="#2040a0">@cel56</font><font color="4444FF">,</font><font color="#2040a0">@cel66</font><font color="4444FF">,</font><font color="#2040a0">@cel76</font><font color="4444FF">,</font><font color="#2040a0">@cel86</font><font color="4444FF">,</font><font color="#2040a0">@cel96</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">6</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel17</font><font color="4444FF">,</font><font color="#2040a0">@cel27</font><font color="4444FF">,</font><font color="#2040a0">@cel37</font><font color="4444FF">,</font><font color="#2040a0">@cel47</font><font color="4444FF">,</font><font color="#2040a0">@cel57</font><font color="4444FF">,</font><font color="#2040a0">@cel67</font><font color="4444FF">,</font><font color="#2040a0">@cel77</font><font color="4444FF">,</font><font color="#2040a0">@cel87</font><font color="4444FF">,</font><font color="#2040a0">@cel97</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">7</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel18</font><font color="4444FF">,</font><font color="#2040a0">@cel28</font><font color="4444FF">,</font><font color="#2040a0">@cel38</font><font color="4444FF">,</font><font color="#2040a0">@cel48</font><font color="4444FF">,</font><font color="#2040a0">@cel58</font><font color="4444FF">,</font><font color="#2040a0">@cel68</font><font color="4444FF">,</font><font color="#2040a0">@cel78</font><font color="4444FF">,</font><font color="#2040a0">@cel88</font><font color="4444FF">,</font><font color="#2040a0">@cel98</font><font color="4444FF"><strong>]</strong></font>
-    columnas<font color="4444FF"><strong>[</strong></font><font color="#FF0000">8</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel19</font><font color="4444FF">,</font><font color="#2040a0">@cel29</font><font color="4444FF">,</font><font color="#2040a0">@cel39</font><font color="4444FF">,</font><font color="#2040a0">@cel49</font><font color="4444FF">,</font><font color="#2040a0">@cel59</font><font color="4444FF">,</font><font color="#2040a0">@cel69</font><font color="4444FF">,</font><font color="#2040a0">@cel79</font><font color="4444FF">,</font><font color="#2040a0">@cel89</font><font color="4444FF">,</font><font color="#2040a0">@cel99</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel11</font><font color="4444FF">,</font><font color="#2040a0">@cel12</font><font color="4444FF">,</font><font color="#2040a0">@cel13</font><font color="4444FF">,</font><font color="#2040a0">@cel21</font><font color="4444FF">,</font><font color="#2040a0">@cel22</font><font color="4444FF">,</font><font color="#2040a0">@cel23</font><font color="4444FF">,</font><font color="#2040a0">@cel31</font><font color="4444FF">,</font><font color="#2040a0">@cel32</font><font color="4444FF">,</font><font color="#2040a0">@cel33</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel11</font><font color="4444FF">,</font><font color="#2040a0">@cel12</font><font color="4444FF">,</font><font color="#2040a0">@cel13</font><font color="4444FF">,</font><font color="#2040a0">@cel21</font><font color="4444FF">,</font><font color="#2040a0">@cel22</font><font color="4444FF">,</font><font color="#2040a0">@cel23</font><font color="4444FF">,</font><font color="#2040a0">@cel31</font><font color="4444FF">,</font><font color="#2040a0">@cel32</font><font color="4444FF">,</font><font color="#2040a0">@cel33</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel14</font><font color="4444FF">,</font><font color="#2040a0">@cel15</font><font color="4444FF">,</font><font color="#2040a0">@cel16</font><font color="4444FF">,</font><font color="#2040a0">@cel24</font><font color="4444FF">,</font><font color="#2040a0">@cel25</font><font color="4444FF">,</font><font color="#2040a0">@cel26</font><font color="4444FF">,</font><font color="#2040a0">@cel34</font><font color="4444FF">,</font><font color="#2040a0">@cel35</font><font color="4444FF">,</font><font color="#2040a0">@cel36</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel17</font><font color="4444FF">,</font><font color="#2040a0">@cel18</font><font color="4444FF">,</font><font color="#2040a0">@cel19</font><font color="4444FF">,</font><font color="#2040a0">@cel27</font><font color="4444FF">,</font><font color="#2040a0">@cel28</font><font color="4444FF">,</font><font color="#2040a0">@cel29</font><font color="4444FF">,</font><font color="#2040a0">@cel37</font><font color="4444FF">,</font><font color="#2040a0">@cel38</font><font color="4444FF">,</font><font color="#2040a0">@cel39</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">3</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel41</font><font color="4444FF">,</font><font color="#2040a0">@cel42</font><font color="4444FF">,</font><font color="#2040a0">@cel43</font><font color="4444FF">,</font><font color="#2040a0">@cel51</font><font color="4444FF">,</font><font color="#2040a0">@cel52</font><font color="4444FF">,</font><font color="#2040a0">@cel53</font><font color="4444FF">,</font><font color="#2040a0">@cel61</font><font color="4444FF">,</font><font color="#2040a0">@cel62</font><font color="4444FF">,</font><font color="#2040a0">@cel63</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">4</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel44</font><font color="4444FF">,</font><font color="#2040a0">@cel45</font><font color="4444FF">,</font><font color="#2040a0">@cel46</font><font color="4444FF">,</font><font color="#2040a0">@cel54</font><font color="4444FF">,</font><font color="#2040a0">@cel55</font><font color="4444FF">,</font><font color="#2040a0">@cel56</font><font color="4444FF">,</font><font color="#2040a0">@cel64</font><font color="4444FF">,</font><font color="#2040a0">@cel65</font><font color="4444FF">,</font><font color="#2040a0">@cel66</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">5</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel47</font><font color="4444FF">,</font><font color="#2040a0">@cel48</font><font color="4444FF">,</font><font color="#2040a0">@cel49</font><font color="4444FF">,</font><font color="#2040a0">@cel57</font><font color="4444FF">,</font><font color="#2040a0">@cel58</font><font color="4444FF">,</font><font color="#2040a0">@cel59</font><font color="4444FF">,</font><font color="#2040a0">@cel67</font><font color="4444FF">,</font><font color="#2040a0">@cel68</font><font color="4444FF">,</font><font color="#2040a0">@cel69</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">6</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel71</font><font color="4444FF">,</font><font color="#2040a0">@cel72</font><font color="4444FF">,</font><font color="#2040a0">@cel73</font><font color="4444FF">,</font><font color="#2040a0">@cel81</font><font color="4444FF">,</font><font color="#2040a0">@cel82</font><font color="4444FF">,</font><font color="#2040a0">@cel83</font><font color="4444FF">,</font><font color="#2040a0">@cel91</font><font color="4444FF">,</font><font color="#2040a0">@cel92</font><font color="4444FF">,</font><font color="#2040a0">@cel93</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">7</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel74</font><font color="4444FF">,</font><font color="#2040a0">@cel75</font><font color="4444FF">,</font><font color="#2040a0">@cel76</font><font color="4444FF">,</font><font color="#2040a0">@cel84</font><font color="4444FF">,</font><font color="#2040a0">@cel85</font><font color="4444FF">,</font><font color="#2040a0">@cel86</font><font color="4444FF">,</font><font color="#2040a0">@cel94</font><font color="4444FF">,</font><font color="#2040a0">@cel95</font><font color="4444FF">,</font><font color="#2040a0">@cel96</font><font color="4444FF"><strong>]</strong></font>
-    cuadros<font color="4444FF"><strong>[</strong></font><font color="#FF0000">8</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="4444FF"><strong>[</strong></font><font color="#2040a0">@cel77</font><font color="4444FF">,</font><font color="#2040a0">@cel78</font><font color="4444FF">,</font><font color="#2040a0">@cel79</font><font color="4444FF">,</font><font color="#2040a0">@cel87</font><font color="4444FF">,</font><font color="#2040a0">@cel88</font><font color="4444FF">,</font><font color="#2040a0">@cel89</font><font color="4444FF">,</font><font color="#2040a0">@cel97</font><font color="4444FF">,</font><font color="#2040a0">@cel98</font><font color="4444FF">,</font><font color="#2040a0">@cel99</font><font color="4444FF"><strong>]</strong></font>
+    <font color="#444444">#Creo las filas, con celdas nuevas
+    </font><strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+       filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>Celda.new<font color="4444FF"><strong>}</strong></font>
+    <strong>end</strong>
+    <font color="#444444">#Creo las columnas, asignando celdas de filas existentes
+    </font><strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+       columnas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font>
+       <strong>for</strong> j <strong>in</strong> <font color="#FF0000">0..8</font>
+          columnas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font><font color="4444FF">=</font>filas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>
+       <strong>end</strong>
+    <strong>end</strong>
+    <font color="#444444">#Creo los cuadros, asignando celdas de filas y columnnas ya existentes
+    </font><strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..2</font>
+       <strong>for</strong> j <strong>in</strong> <font color="#FF0000">0..2</font>
+          cuadros<font color="4444FF"><strong>[</strong></font>i<font color="4444FF">*</font><font color="#FF0000">3</font><font color="4444FF">+</font>j<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF">=</font><font color="a52a2a"><strong>Array</strong></font>.new<font color="4444FF"><strong>(</strong></font><font color="#FF0000">9</font><font color="4444FF"><strong>)</strong></font>
+          <strong>for</strong> k <strong>in</strong> <font color="#FF0000">0..2</font>
+             <strong>for</strong> l <strong>in</strong> <font color="#FF0000">0..2</font>
+                cuadros<font color="4444FF"><strong>[</strong></font>i<font color="4444FF">*</font><font color="#FF0000">3</font><font color="4444FF">+</font>j<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>k<font color="4444FF">*</font><font color="#FF0000">3</font><font color="4444FF">+</font>l<font color="4444FF"><strong>]</strong></font><font color="4444FF">=</font>filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF">*</font><font color="#FF0000">3</font><font color="4444FF">+</font>k<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF">*</font><font color="#FF0000">3</font><font color="4444FF">+</font>l<font color="4444FF"><strong>]</strong></font>
+             <strong>end</strong>
+          <strong>end</strong>
+       <strong>end</strong>
+    <strong>end</strong>
   <strong>end</strong>
   
-  <strong>def<font color="ff0000"> filas</font></strong>
+  <font color="#444444">#Lectura del atributo @filas
+  </font><strong>def<font color="ff0000"> filas</font></strong>
     <font color="#2040a0">@filas</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>filas
-  
-  <strong>def<font color="ff0000"> columnas</font></strong>
+
+  <font color="#444444">#Lectura del atributo @columnnas  
+  </font><strong>def<font color="ff0000"> columnas</font></strong>
     <font color="#2040a0">@columnas</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>columnas
-  
-  <strong>def<font color="ff0000"> cuadros</font></strong>
+
+  <font color="#444444">#Lectura del atributo @cuadros
+  </font><strong>def<font color="ff0000"> cuadros</font></strong>
     <font color="#2040a0">@cuadros</font>
   <strong>end</strong>
   public <font color="4444FF">:</font>cuadros
   
-  <strong>def<font color="ff0000"> to_s</font></strong>
+  <font color="#444444">#Metodo to_s. Convierte el tablero a texto para imprimir
+  </font><strong>def<font color="ff0000"> to_s</font></strong>
     retorno <font color="4444FF">=</font> <font color="#008000">&quot;&quot;</font>
     maximo <font color="4444FF">=</font> <font color="#FF0000">0</font>
     <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
@@ -335,54 +212,28 @@
   <strong>end</strong> 
   public <font color="4444FF">:</font>to_s
   
-  <strong>def<font color="ff0000"> fccuadro</font><font color="2040a0"><font color="4444FF">(</font>fila,columna<font color="4444FF">)</font></font></strong>
-    cuadro <font color="4444FF">=</font> <font color="#FF0000">0</font>
-    <strong>case</strong> fila
-      <strong>when</strong> <font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">3</font>
-      <strong>case</strong> columna
-        <strong>when</strong> <font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">3</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">1</font>
-        <strong>when</strong> <font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">6</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">2</font>
-        <strong>when</strong> <font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">9</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">3</font>
-      <strong>end</strong>
-      <strong>when</strong> <font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">6</font>
-      <strong>case</strong> columna
-        <strong>when</strong> <font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">3</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">4</font> 
-        <strong>when</strong> <font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">6</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">5</font>
-        <strong>when</strong> <font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">9</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">6</font>
-      <strong>end</strong>
-      <strong>when</strong> <font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">9</font>
-      <strong>case</strong> columna
-        <strong>when</strong> <font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">3</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">7</font>
-        <strong>when</strong> <font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">6</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">8</font>
-        <strong>when</strong> <font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">9</font>
-        cuadro <font color="4444FF">=</font> <font color="#FF0000">9</font>
-      <strong>end</strong>
-    <strong>end</strong>
+  <font color="#444444">#Metodo fccuadro. Dadas fila y columnna, indica el cuadro al que pertenece la posicion
+  </font><strong>def<font color="ff0000"> fccuadro</font><font color="2040a0"><font color="4444FF">(</font>fila,columna<font color="4444FF">)</font></font></strong>
+    i <font color="4444FF">=</font> <font color="4444FF"><strong>(</strong></font>fila<font color="4444FF"><strong>)</strong></font> <font color="4444FF">/</font> <font color="#FF0000">3</font>
+    j <font color="4444FF">=</font> <font color="4444FF"><strong>(</strong></font>columna<font color="4444FF"><strong>)</strong></font> <font color="4444FF">/</font> <font color="#FF0000">3</font>
+    cuadro <font color="4444FF">=</font> i <font color="4444FF">*</font> <font color="#FF0000">3</font> <font color="4444FF">+</font> j 
     cuadro
   <strong>end</strong>
-  
   public <font color="4444FF">:</font>fccuadro
   
-  <strong>def<font color="ff0000"> cargar</font><font color="2040a0"><font color="4444FF">(</font>tablero<font color="4444FF">)</font></font></strong>
-    <strong>for</strong> i <strong>in</strong> <font color="#FF0000">1..9</font>
-      <strong>for</strong> j <strong>in</strong> <font color="#FF0000">1..9</font>
-        v<font color="4444FF">=</font>tablero<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>[</strong></font>j-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>
+  <font color="#444444">#Metodo cargar. Carga el tablero con lo recibido
+  </font><strong>def<font color="ff0000"> cargar</font><font color="2040a0"><font color="4444FF">(</font>tablero<font color="4444FF">)</font></font></strong>
+    <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+      <strong>for</strong> j <strong>in</strong> <font color="#FF0000">0..8</font>
+        v<font color="4444FF">=</font>tablero<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>
         <strong>if</strong> <font color="4444FF"><strong>(</strong></font>v <font color="4444FF">!=</font> <font color="#FF0000">0</font><font color="4444FF"><strong>)</strong></font>
 
           k <font color="4444FF">=</font> fccuadro<font color="4444FF"><strong>(</strong></font>i<font color="4444FF">,</font>j<font color="4444FF"><strong>)</strong></font>    
-          filas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
-          columnas<font color="4444FF"><strong>[</strong></font>j-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
-          cuadros<font color="4444FF"><strong>[</strong></font>k-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>  
+          filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
+          columnas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
+          cuadros<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>  
       
-          filas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.valor<font color="4444FF">=</font>v
+          filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.valor<font color="4444FF">=</font>v
           
         <strong>end</strong>
       <strong>end</strong>
@@ -390,52 +241,49 @@
   <strong>end</strong>
   public <font color="4444FF">:</font>cargar
   
-  <strong>def<font color="ff0000"> resolver</font></strong>
+  <font color="#444444">#Metodo resolver. Resuelve el tablero de ser posible
+  </font><strong>def<font color="ff0000"> resolver</font></strong>
     <strong>begin</strong>
       cambios <font color="4444FF">=</font> <font color="#FF0000">0</font>
-      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">1..9</font>
-        <strong>for</strong> j <strong>in</strong> <font color="#FF0000">1..9</font>
-          celda <font color="4444FF">=</font> filas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>
+      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+        <strong>for</strong> j <strong>in</strong> <font color="#FF0000">0..8</font>
+          celda <font color="4444FF">=</font> filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>
           v<font color="4444FF">=</font>celda.posible<font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>
           <strong>if</strong><font color="4444FF"><strong>(</strong></font>celda.posible.length <font color="4444FF">==</font> <font color="#FF0000">1</font> <strong>and</strong> celda.valor <font color="4444FF">!=</font> v<font color="4444FF"><strong>)</strong></font>
             cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> <font color="#FF0000">1</font>
             
             k <font color="4444FF">=</font> fccuadro<font color="4444FF"><strong>(</strong></font>i<font color="4444FF">,</font>j<font color="4444FF"><strong>)</strong></font>    
             
-            filas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
-            columnas<font color="4444FF"><strong>[</strong></font>j-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
-            cuadros<font color="4444FF"><strong>[</strong></font>k-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>  
+            filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
+            columnas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>
+            cuadros<font color="4444FF"><strong>[</strong></font>k<font color="4444FF"><strong>]</strong></font>.quitar<font color="4444FF"><strong>(</strong></font>v<font color="4444FF"><strong>)</strong></font>  
       
-            filas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.valor<font color="4444FF">=</font>v           
+            filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.celdas<font color="4444FF"><strong>[</strong></font>j<font color="4444FF"><strong>]</strong></font>.valor<font color="4444FF">=</font>v           
           <strong>end</strong>
         <strong>end</strong>
       <strong>end</strong>
-      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">1..9</font>
-        cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> filas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.revisar
+      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+        cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> filas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.revisar
       <strong>end</strong>
-      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">1..9</font>
-        cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> columnas<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.revisar
+      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+        cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> columnas<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.revisar
       <strong>end</strong>
-      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">1..9</font>
-        cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> cuadros<font color="4444FF"><strong>[</strong></font>i-<font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font>.revisar
+      <strong>for</strong> i <strong>in</strong> <font color="#FF0000">0..8</font>
+        cambios <font color="4444FF">=</font> cambios <font color="4444FF">+</font> cuadros<font color="4444FF"><strong>[</strong></font>i<font color="4444FF"><strong>]</strong></font>.revisar
       <strong>end</strong>
-
     <strong>end</strong> <strong>while</strong><font color="4444FF"><strong>(</strong></font>cambios<font color="4444FF">!=</font><font color="#FF0000">0</font><font color="4444FF"><strong>)</strong></font>
-    
   <strong>end</strong>
   public <font color="4444FF">:</font>resolver
   
 <strong>end</strong>
 
-tablero <font color="4444FF">=</font> Tablero.new
+<font color="#444444">#Aqui comienza la ejecución
 
+</font>tablero <font color="4444FF">=</font> Tablero.new
 
-<font color="#444444">#Sudoku N 1897
+tablero.cargar<font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>[</strong></font>
 
-  
-
-#Basico
-#tablero.cargar([
+<font color="#444444">#Basico
 #               [0,0,0,0,5,0,0,0,9], 
 #               [0,0,0,3,0,0,8,4,0],
 #               [4,3,0,1,8,7,0,6,0],
@@ -445,23 +293,19 @@ tablero <font color="4444FF">=</font> Tablero.new
 #               [0,4,0,2,1,0,0,9,8],
 #               [0,9,3,0,0,8,0,0,0],
 #               [7,0,0,0,9,0,0,0,0]
-#               ])
 
 #Intermedio
-</font>tablero.cargar<font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>[</strong></font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">3</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font> 
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">6</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">3</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">6</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF">,</font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
-               <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>
-               <font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
+                </font><font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">3</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font> 
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">6</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">1</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">3</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">4</font><font color="4444FF">,</font><font color="#FF0000">6</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">9</font><font color="4444FF">,</font><font color="#FF0000">1</font><font color="4444FF"><strong>]</strong></font><font color="4444FF">,</font>
+                <font color="4444FF"><strong>[</strong></font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">5</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">8</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF">,</font><font color="#FF0000">7</font><font color="4444FF">,</font><font color="#FF0000">2</font><font color="4444FF">,</font><font color="#FF0000">0</font><font color="4444FF"><strong>]</strong></font>
 
 <font color="#444444">#Avanzado
-#tablero.cargar([
 #               [1,0,0,9,4,0,3,0,0], 
 #               [0,0,0,0,0,8,1,0,6],
 #               [9,0,0,0,0,0,0,2,0],
@@ -471,9 +315,8 @@ tablero <font color="4444FF">=</font> Tablero.new
 #               [0,9,0,0,0,0,0,0,4],
 #               [2,0,1,4,0,0,0,0,0],
 #               [0,0,3,0,7,6,0,0,8]
-#               ])
 
-#tablero.cargar([
+#Otros
 #               [8,0,0,0,0,4,0,0,6],
 #               [2,0,0,0,5,0,1,0,0],
 #               [9,0,0,7,0,0,0,3,0],
@@ -483,11 +326,35 @@ tablero <font color="4444FF">=</font> Tablero.new
 #               [0,8,0,0,0,6,0,0,2],
 #               [0,0,7,0,3,0,0,0,5],
 #               [4,0,0,9,0,0,0,0,1]
-#               ])
+
+#websudoku evil
+#               [0,9,0,0,4,6,0,0,3],
+#               [0,8,0,0,7,0,0,0,0],
+#               [1,0,0,0,0,0,2,0,0],
+#               [0,0,1,0,0,7,0,0,5],
+#               [0,0,3,0,2,0,6,0,0],
+#               [7,0,0,9,0,0,1,0,0],
+#               [0,0,9,0,0,0,0,0,4],
+#               [0,0,0,0,3,0,0,2,0],
+#               [2,0,0,5,8,0,0,7,0]
+
+#scargot
+#              [1,0,0,0,0,7,0,9,0],
+#              [0,3,0,0,2,0,0,0,8],
+#              [0,0,9,6,0,0,5,0,0],
+#              [0,0,5,3,0,0,9,0,0],
+#              [0,1,0,0,8,0,0,0,2],
+#              [6,0,0,0,0,4,0,0,0],
+#              [3,0,0,0,0,0,0,1,0],
+#              [0,4,0,0,0,0,0,0,7],
+#              [0,0,7,0,0,0,3,0,0]
 
 
-</font>tablero.resolver
-<font color="a52a2a"><strong>puts</strong></font> tablero.to_s 
+               </font><font color="4444FF"><strong>]</strong></font><font color="4444FF"><strong>)</strong></font>
+
+
+tablero.resolver
+<font color="a52a2a"><strong>puts</strong></font> tablero.to_s
 
 
 </pre>
