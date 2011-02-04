@@ -1,3 +1,13 @@
+#Funciones generales
+
+def color(texto,codigo)
+  "\033[#{codigo}#{texto}\033[0m"
+end
+
+def celeste(texto); color(texto,"1;34;40m"); end
+def rojo(texto);    color(texto,"1;31;40m"); end
+def verde(texto);   color(texto,"1;32;40m"); end
+
 #Clase celda
 class Celda
   
@@ -177,31 +187,37 @@ class Tablero
   public :cuadros
   
   def lineas(inicio,medio,bifurcacion,fin,maximo)
+
     retorno = ""
-    retorno += inicio + medio
+    retorno += celeste(inicio + medio)
     for j in 0..8
       if j % 3 == 0 and j>0
-        retorno += bifurcacion
+        retorno += celeste(bifurcacion)
       end
       for k in 0..(maximo)
-        retorno += medio
+        retorno += celeste(medio)
       end
       if j % 3 == 0 and j>0
-        retorno += medio
+        retorno += celeste(medio)
       end
     end
-    retorno += fin + "\n"   
+    retorno += celeste(fin) + "\n"   
     retorno
+
   end
   
   #Metodo to_s. Convierte el tablero a texto para imprimir
   def to_s
     retorno = ""
     maximo = 0
+    minimo = 9
     for i in 0..8
       for j in 0..8
         if filas[i].celdas[j].posible.length > maximo
           maximo = filas[i].celdas[j].posible.length
+        end
+        if filas[i].celdas[j].posible.length < minimo
+          minimo = filas[i].celdas[j].posible.length
         end
       end
     end
@@ -215,19 +231,23 @@ class Tablero
       end
       for j in 0..8
         if j % 3 == 0
-          retorno += "║ "
+          retorno += celeste("║") + verde(" ")
         end
         actual = filas[i].celdas[j].posible.length
         espacios = maximo - actual
         for k in 1..espacios
-          retorno += "."
+          retorno += verde(" ")
         end
         for k in filas[i].celdas[j].posible
-          retorno += k.to_s
+          if minimo == actual
+            retorno += verde(k.to_s)
+          else
+            retorno += rojo(k.to_s)
+          end
         end
-        retorno += " "
+        retorno += verde(" ")
       end
-      retorno += "║"
+      retorno += celeste("║")
       retorno += "\n"
     end   
     #Ultima Linea
