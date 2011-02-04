@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
-
+# coding: utf-8
+ 
 def modo_print; ARGV[0]; end
 def modo_color; ARGV[1]; end
 
