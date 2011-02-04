@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
-def modo_color; "color"; end
+def modo_print; ARGV[0]; end
+def modo_color; ARGV[1]; end
 
 #Funciones generales de texto
 def color(texto,modo,frente,fondo)
@@ -21,7 +22,11 @@ def blanco(texto);  color(texto,1,37,40); end
 def gris(texto);    color(texto,0,37,40); end
 def br; "\n"; end
 
-#Otras funciones necesarias
+def imprimir(texto)
+   if modo_print == "verbose"
+      print texto
+   end
+end
 
 #Comprueba si los elementos del array_b esta incluido en el array_a
 def incluye(array_a, array_b)
@@ -39,6 +44,9 @@ def fccuadro(fila,columna)
   cuadro = i * 3 + j 
   cuadro
 end
+
+#Variable global para control de recursividad
+$vuelta = 0
 
 #Clase celda
 class Celda
@@ -146,10 +154,9 @@ class Grupo
     #busco combinaciones de N valores posibles que se repitan en N celdas
     #si encuentro, los dejo como únicos valores posibles de esas celdas
     for i in 0..8
+       if celdas[i].posible.length < 9
           for j in 1..(celdas[i].posible.length)
-
              todas = celdas[i].posible.combination(j)
-
              #para cada combinacion posible de N digitos, me fijo si existe exactamente en otras N-1 celdas
              for k in todas
                 k.uniq!
@@ -186,6 +193,7 @@ class Grupo
                 end
              end
           end
+       end
     end
     cambios
   end
@@ -259,7 +267,7 @@ class Tablero
         retorno += celeste(medio)
       end
     end
-    retorno += celeste(fin) + br()   
+    retorno += celeste(fin) + br  
     retorno
 
   end
@@ -310,7 +318,7 @@ class Tablero
         retorno += verde(" ")
       end
       retorno += celeste("║")
-      retorno += br()
+      retorno += br
     end   
     #Ultima Linea
     retorno += lineas("╚","═","╩","╝",maximo)
@@ -356,42 +364,37 @@ class Tablero
   public :cargar
   
   #Metodo esta_resuelto. Se fija si el tablero esta resuelto
-  def esta_resuelto(vueltas)
+  def esta_resuelto
     resuelto = true
     for i in 0..8
        for j in 0..8
           celda = filas[i].celdas[j]
-
-          if celda.posible.length != 1
+          if celda.valor == 0
             resuelto = false
           end
        end
     end
-    if resuelto
-       vueltas
-    else
-       -vueltas
-    end
+    resuelto
   end
 
   #Metodo resolver. Resuelve el tablero de ser posible
   def resolver
-    vueltas = 0
-    begin
-      cambios = 0
+   vueltas = 0
+   begin
+     cambios = 0
       for i in 0..8
         for j in 0..8
           celda = filas[i].celdas[j]
           v=celda.posible[0]
           if(celda.posible.length == 1 and celda.valor != v)
             cambios += 1
-            
+         
             k = fccuadro(i,j)    
-            
+         
             filas[i].quitar(v)
             columnas[j].quitar(v)
             cuadros[k].quitar(v)  
-            
+           
             filas[i].celdas[j].valor=v           
           end
         end
@@ -406,8 +409,70 @@ class Tablero
         cambios += cuadros[i].revisar
       end
       vueltas +=1
-    end while(cambios!=0)
-    esta_resuelto(vueltas)
+    end while(cambios!=0 and vueltas < 5)
+    if not esta_resuelto
+       falla=false
+       resuelto=false
+       for i in 0..8
+        if not falla and not resuelto
+         for j in 0..8
+             if not falla and not resuelto
+                celda = filas[i].celdas[j]
+                tablero_rec = nil
+                vueltas_tmp = 0
+                if celda.posible.length > 1
+                   for k in celda.posible
+                      if tablero_rec == nil or not tablero_rec.esta_resuelto
+                         for x in 0..$vuelta
+                            if x < $vuelta
+                               imprimir celeste("║ ")
+                            else
+                               imprimir celeste("╚═")
+                            end
+                         end
+                         imprimir celeste("[") + amarillo("#{i+1}") + celeste(",") + amarillo("#{j+1}") + celeste("]") + blanco(": probando con ") + celeste("#{k} ") + br
+                         vueltas_tmp += 1
+                         tablero_rec = Tablero.new
+                         carga = Array.new(9){Array.new(9)}
+                         for l in 0..8
+                            for m in 0..8
+                               if l==i and m== j
+                                  carga[l][m] = k
+                               else
+                                  carga[l][m] = filas[l].celdas[m].valor
+                               end
+                            end
+                         end
+                         tablero_rec.cargar(carga)
+                         $vuelta+=1
+                         vueltas_tmp += tablero_rec.resolver
+                         $vuelta-=1
+                      end
+                   end   
+                end
+                if tablero_rec != nil and tablero_rec.esta_resuelto
+                   for l in 0..8
+                      for m in 0..8
+                         n=fccuadro(l,m)
+                      
+                         filas[l].quitar(tablero_rec.filas[l].celdas[m].valor)
+                         columnas[m].quitar(tablero_rec.filas[l].celdas[m].valor)
+                         cuadros[n].quitar(tablero_rec.filas[l].celdas[m].valor)
+            
+                         filas[l].celdas[m].valor=tablero_rec.filas[l].celdas[m].valor
+                      end
+                   end
+                   resuelto=true
+                   vueltas += vueltas_tmp
+                elsif celda.posible.length > 1
+                   falla=true
+                end
+             end
+          end
+        end
+       end
+    end
+    vueltas
   end 
   public :resolver
   
@@ -430,18 +495,18 @@ tablero.cargar([
                #               [0,9,3,0,0,8,0,0,0],
                #               [7,0,0,0,9,0,0,0,0]
                
-               #Intermedio: no lo resuelve
-                              [0,4,3,0,2,0,8,0,0], 
-                              [7,9,0,0,5,4,0,0,0],
-                              [0,0,0,0,0,0,0,0,9],
-                              [0,0,0,6,0,0,9,0,7],
-                              [0,0,0,5,0,8,0,0,0],
-                              [1,0,7,0,0,2,0,0,0],
-                              [3,0,0,0,0,0,0,0,0],
-                              [0,0,0,4,6,0,0,9,1],
-                              [0,0,5,0,8,0,7,2,0]
+               #Intermedio: 11 vueltas, con recursividad
+               #               [0,4,3,0,2,0,8,0,0], 
+               #               [7,9,0,0,5,4,0,0,0],
+               #               [0,0,0,0,0,0,0,0,9],
+               #               [0,0,0,6,0,0,9,0,7],
+               #               [0,0,0,5,0,8,0,0,0],
+               #               [1,0,7,0,0,2,0,0,0],
+               #               [3,0,0,0,0,0,0,0,0],
+               #               [0,0,0,4,6,0,0,9,1],
+               #               [0,0,5,0,8,0,7,2,0]
                
-               #Avanzado: no lo resuelve
+               #Avanzado: 10 vueltas, con recursividad
                #               [1,0,0,9,4,0,3,0,0], 
                #               [0,0,0,0,0,8,1,0,6],
                #               [9,0,0,0,0,0,0,2,0],
@@ -474,7 +539,7 @@ tablero.cargar([
                #               [0,0,0,0,3,0,0,2,0],
                #               [2,0,0,5,8,0,0,7,0]
                
-               #scargot: no lo resuelve
+               #scargot: 42 vueltas, con recursividad
                #               [1,0,0,0,0,7,0,9,0],
                #               [0,3,0,0,2,0,0,0,8],
                #               [0,0,9,6,0,0,5,0,0],
@@ -495,17 +560,60 @@ tablero.cargar([
                #               [7,6,0,0,0,8,0,0,0],
                #               [0,0,0,9,0,0,8,1,0],
                #               [0,0,9,0,0,0,0,0,0]                              
+
+               #vacio: 124 vueltas, con recursividad
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0],
+               #               [0,0,0,0,0,0,0,0,0]                              
+
+               #Imposible: 
+                              [0,4,3,0,2,0,8,0,0], 
+                              [7,9,0,0,5,4,0,0,6],
+                              [0,0,0,0,0,0,0,0,9],
+                              [0,0,0,6,0,0,9,0,7],
+                              [0,0,0,5,0,8,0,0,0],
+                              [1,0,7,0,0,2,0,0,0],
+                              [3,0,0,0,0,0,0,0,0],
+                              [0,0,0,4,6,0,0,9,1],
+                              [0,0,5,0,8,0,7,2,0]
+
+
+
                ])
 
-puts verde(" Tablero original:")
-puts tablero.to_s
-puts ""
-vueltas = tablero.resolver
-if vueltas > 0
-   puts verde(" Tablero Resuelto!") + amarillo(" :) ") + celeste("llevo #{vueltas} vueltas")
+puts br
+if modo_print == "verbose"
+   imprimir amarillo(" Modo verbose ")
 else
-   puts rojo(" No fue posible resolver este tablero") + amarillo(" :( ") + celeste("llevo #{-vueltas} vueltas")
+   puts amarillo(" Modo silencioso")
 end
 
-puts tablero.to_s
+if modo_color == "color"
+   imprimir blanco("en ") + celeste("c") + amarillo("o") + rojo("l") + verde("o") + violeta("r") + blanco("!!") + br
+else
+   imprimir "en blanco y negro" + br
+end
+
+imprimir br
+imprimir verde(" Tablero original:") + br
+imprimir tablero.to_s + br
+vueltas = tablero.resolver
+
+if tablero.esta_resuelto
+   imprimir verde(" Tablero Resuelto!") + amarillo(" :) ") + celeste("llevo #{vueltas} vueltas") + br
+else
+   imprimir rojo(" No fue posible resolver este tablero") + amarillo(" :( ") + celeste("llevo #{vueltas} vueltas") + br
+end
+
+imprimir br
+imprimir verde(" Tablero final:") + br
+imprimir tablero.to_s
+imprimir br
+puts rojo(tablero.stream)
 
