@@ -1,12 +1,44 @@
-#Funciones generales
+#!/usr/bin/ruby
 
-def color(texto,codigo)
-  "\033[#{codigo}#{texto}\033[0m"
+def modo_color; "color"; end
+
+#Funciones generales de texto
+def color(texto,modo,frente,fondo)
+  if modo_color == "color"
+     "\033[#{modo};#{frente};#{fondo}m#{texto}\033[0m"
+  else
+     texto
+  end
+end
+def rojo(texto);    color(texto,1,31,40); end
+def verde(texto);   color(texto,1,32,40); end
+def amarillo(texto);color(texto,1,33,40); end
+def celeste(texto); color(texto,1,34,40); end
+def azul(texto);    color(texto,0,34,40); end
+def violeta(texto); color(texto,1,35,40); end
+def cian(texto);    color(texto,1,36,40); end
+def blanco(texto);  color(texto,1,37,40); end
+def gris(texto);    color(texto,0,37,40); end
+def br; "\n"; end
+
+#Otras funciones necesarias
+
+#Comprueba si los elementos del array_b esta incluido en el array_a
+def incluye(array_a, array_b)
+   retorno = true
+   for k in array_b
+      retorno = retorno && array_a.include?(k)
+   end
+   retorno
 end
 
-def celeste(texto); color(texto,"1;34;40m"); end
-def rojo(texto);    color(texto,"1;31;40m"); end
-def verde(texto);   color(texto,"1;32;40m"); end
+#Dadas fila y columnna, indica el cuadro al que pertenece la posicion
+def fccuadro(fila,columna)
+  i = (fila) / 3
+  j = (columna) / 3
+  cuadro = i * 3 + j 
+  cuadro
+end
 
 #Clase celda
 class Celda
@@ -111,24 +143,50 @@ class Grupo
       end
     end
     
-    #busco si los N valores posibles de una celda se repiten exactamente en N-1 otras
-    #si es asi, los elimino como posibles del resto de las celdas
+    #busco combinaciones de N valores posibles que se repitan en N celdas
+    #si encuentro, los dejo como únicos valores posibles de esas celdas
     for i in 0..8
-      todas = Array.new
-      if celdas[i].posible.length > 1
-        for j in 0..8
-          if celdas[i].posible == celdas[j].posible
-            todas << j
+          for j in 1..(celdas[i].posible.length)
+
+             todas = celdas[i].posible.combination(j)
+
+             #para cada combinacion posible de N digitos, me fijo si existe exactamente en otras N-1 celdas
+             for k in todas
+                k.uniq!
+                cantidad = 0
+                for l in 0..8
+                   if incluye(celdas[l].posible,k)
+                      cantidad += 1
+                   end
+                end
+                if cantidad == j and j == k.length
+                   cantidad_unitaria = 0
+                   for l in 0..8
+                      for m in k
+                         if incluye(celdas[l].posible,[m]) and not incluye(celdas[l].posible,k) 
+                            cantidad_unitaria += 1
+                         end
+                      end
+                   end
+                   if cantidad_unitaria == 0
+                      for l in 0..8
+                         resto = [1,2,3,4,5,6,7,8,9] - k
+                         if incluye(celdas[l].posible,k)
+                            for n in resto
+                               cambios += celdas[l].quitar(n)
+                            end
+                         else
+                            for n in k
+                               cambios += celdas[l].quitar(n)
+                            end
+                         end
+                      end
+                      cambios
+                   end
+                end
+             end
           end
-        end
-        if celdas[i].posible.length == todas.length
-          for j in 0..8
-            todas.delete(j) {celdas[j].posible = celdas[j].posible - celdas[i].posible;}
-          end
-        end
-      end
-    end    
-    
+    end
     cambios
   end
   public :revisar
@@ -201,7 +259,7 @@ class Tablero
         retorno += celeste(medio)
       end
     end
-    retorno += celeste(fin) + "\n"   
+    retorno += celeste(fin) + br()   
     retorno
 
   end
@@ -238,17 +296,21 @@ class Tablero
         for k in 1..espacios
           retorno += verde(" ")
         end
-        for k in filas[i].celdas[j].posible
-          if minimo == actual
-            retorno += verde(k.to_s)
-          else
-            retorno += rojo(k.to_s)
+        if filas[i].celdas[j].valor != 0
+           retorno += verde(filas[i].celdas[j].valor.to_s)
+        else
+          for k in filas[i].celdas[j].posible
+             if actual == minimo
+                retorno += amarillo(k.to_s)
+             else
+                retorno += rojo(k.to_s)
+             end
           end
         end
         retorno += verde(" ")
       end
       retorno += celeste("║")
-      retorno += "\n"
+      retorno += br()
     end   
     #Ultima Linea
     retorno += lineas("╚","═","╩","╝",maximo)
@@ -256,38 +318,65 @@ class Tablero
     retorno
   end 
   public :to_s
-  
-  #Metodo fccuadro. Dadas fila y columnna, indica el cuadro al que pertenece la posicion
-  def fccuadro(fila,columna)
-    i = (fila) / 3
-    j = (columna) / 3
-    cuadro = i * 3 + j 
-    cuadro
-  end
-  public :fccuadro
-  
+
+  #Metodo stream. Convierte el tablero a texto para pasar a otro programa
+  def stream
+    retorno = "sudoku" + "|"  + esta_resuelto.to_s + "|"
+    
+    for i in 0..8
+       for j in 0..8
+          for k in filas[i].celdas[j].posible
+             retorno += k.to_s
+          end
+          if (i*j) < 64 
+             retorno += ","
+          end
+       end 
+    end   
+    retorno += "|"
+    retorno
+  end 
+  public :stream
+   
   #Metodo cargar. Carga el tablero con lo recibido
   def cargar(tablero)
     for i in 0..8
       for j in 0..8
         v=tablero[i][j]
         if (v != 0)
-          
           k = fccuadro(i,j)    
           filas[i].quitar(v)
           columnas[j].quitar(v)
           cuadros[k].quitar(v)  
-          
           filas[i].celdas[j].valor=v
-          
         end
       end
     end
   end
   public :cargar
   
+  #Metodo esta_resuelto. Se fija si el tablero esta resuelto
+  def esta_resuelto(vueltas)
+    resuelto = true
+    for i in 0..8
+       for j in 0..8
+          celda = filas[i].celdas[j]
+
+          if celda.posible.length != 1
+            resuelto = false
+          end
+       end
+    end
+    if resuelto
+       vueltas
+    else
+       -vueltas
+    end
+  end
+
   #Metodo resolver. Resuelve el tablero de ser posible
   def resolver
+    vueltas = 0
     begin
       cambios = 0
       for i in 0..8
@@ -316,8 +405,10 @@ class Tablero
       for i in 0..8
         cambios += cuadros[i].revisar
       end
+      vueltas +=1
     end while(cambios!=0)
-  end
+    esta_resuelto(vueltas)
+  end 
   public :resolver
   
 end
@@ -328,29 +419,29 @@ tablero = Tablero.new
 
 tablero.cargar([
                
-               #Basico
-               #                              [0,0,0,0,5,0,0,0,9], 
-               #                              [0,0,0,3,0,0,8,4,0],
-               #                              [4,3,0,1,8,7,0,6,0],
-               #                              [3,0,8,0,0,0,0,7,0],
-               #                              [0,0,0,4,3,2,0,0,0],
-               #                              [0,5,0,0,0,0,9,0,2],
-               #                              [0,4,0,2,1,0,0,9,8],
-               #                              [0,9,3,0,0,8,0,0,0],
-               #                              [7,0,0,0,9,0,0,0,0]
+               #Basico: 4 vueltas
+               #               [0,0,0,0,5,0,0,0,9], 
+               #               [0,0,0,3,0,0,8,4,0],
+               #               [4,3,0,1,8,7,0,6,0],
+               #               [3,0,8,0,0,0,0,7,0],
+               #               [0,0,0,4,3,2,0,0,0],
+               #               [0,5,0,0,0,0,9,0,2],
+               #               [0,4,0,2,1,0,0,9,8],
+               #               [0,9,3,0,0,8,0,0,0],
+               #               [7,0,0,0,9,0,0,0,0]
                
-               #Intermedio
-               [0,4,3,0,2,0,8,0,0], 
-               [7,9,0,0,5,4,0,0,0],
-               [0,0,0,0,0,0,0,0,9],
-               [0,0,0,6,0,0,9,0,7],
-               [0,0,0,5,0,8,0,0,0],
-               [1,0,7,0,0,2,0,0,0],
-               [3,0,0,0,0,0,0,0,0],
-               [0,0,0,4,6,0,0,9,1],
-               [0,0,5,0,8,0,7,2,0]
+               #Intermedio: no lo resuelve
+                              [0,4,3,0,2,0,8,0,0], 
+                              [7,9,0,0,5,4,0,0,0],
+                              [0,0,0,0,0,0,0,0,9],
+                              [0,0,0,6,0,0,9,0,7],
+                              [0,0,0,5,0,8,0,0,0],
+                              [1,0,7,0,0,2,0,0,0],
+                              [3,0,0,0,0,0,0,0,0],
+                              [0,0,0,4,6,0,0,9,1],
+                              [0,0,5,0,8,0,7,2,0]
                
-               #Avanzado
+               #Avanzado: no lo resuelve
                #               [1,0,0,9,4,0,3,0,0], 
                #               [0,0,0,0,0,8,1,0,6],
                #               [9,0,0,0,0,0,0,2,0],
@@ -361,7 +452,7 @@ tablero.cargar([
                #               [2,0,1,4,0,0,0,0,0],
                #               [0,0,3,0,7,6,0,0,8]
                
-               #Otros
+               #Otros: 5 vueltas
                #               [8,0,0,0,0,4,0,0,6],
                #               [2,0,0,0,5,0,1,0,0],
                #               [9,0,0,7,0,0,0,3,0],
@@ -372,7 +463,7 @@ tablero.cargar([
                #               [0,0,7,0,3,0,0,0,5],
                #               [4,0,0,9,0,0,0,0,1]
                
-               #websudoku evil
+               #websudoku evil: 6 vueltas
                #               [0,9,0,0,4,6,0,0,3],
                #               [0,8,0,0,7,0,0,0,0],
                #               [1,0,0,0,0,0,2,0,0],
@@ -383,7 +474,7 @@ tablero.cargar([
                #               [0,0,0,0,3,0,0,2,0],
                #               [2,0,0,5,8,0,0,7,0]
                
-               #scargot
+               #scargot: no lo resuelve
                #               [1,0,0,0,0,7,0,9,0],
                #               [0,3,0,0,2,0,0,0,8],
                #               [0,0,9,6,0,0,5,0,0],
@@ -393,10 +484,28 @@ tablero.cargar([
                #               [3,0,0,0,0,0,0,1,0],
                #               [0,4,0,0,0,0,0,0,7],
                #               [0,0,7,0,0,0,3,0,0]
-               
-               
+
+               #ejemplo web: 8 vueltas
+               #               [0,0,0,0,0,0,2,0,0],
+               #               [0,5,8,0,0,6,0,0,0],
+               #               [0,0,0,3,0,0,0,8,5],
+               #               [0,1,0,4,7,0,6,0,0],
+               #               [9,0,6,0,0,0,5,0,7],
+               #               [0,0,7,0,3,9,0,4,0],
+               #               [7,6,0,0,0,8,0,0,0],
+               #               [0,0,0,9,0,0,8,1,0],
+               #               [0,0,9,0,0,0,0,0,0]                              
                ])
 
-
-tablero.resolver
+puts verde(" Tablero original:")
 puts tablero.to_s
+puts ""
+vueltas = tablero.resolver
+if vueltas > 0
+   puts verde(" Tablero Resuelto!") + amarillo(" :) ") + celeste("llevo #{vueltas} vueltas")
+else
+   puts rojo(" No fue posible resolver este tablero") + amarillo(" :( ") + celeste("llevo #{-vueltas} vueltas")
+end
+
+puts tablero.to_s
+
