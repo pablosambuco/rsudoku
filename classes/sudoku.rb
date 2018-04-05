@@ -86,7 +86,7 @@ class Celda
   #Metodo quitar. Elimina el valor de los posibles
   def quitar(valor)
     retorno=0
-    if @posible.delete(valor){false}
+    if @posible.delete(valor) == valor
       retorno=1
     end
     retorno
@@ -125,7 +125,10 @@ class Grupo
   def quitar(valor)
     retorno = 0
     for i in 0..8
-      retorno += celdas[i].quitar(valor)
+      if celdas[i].quitar(valor) > 0
+		imprimir (i+1).to_s + " "
+		retorno += 1
+	  end
     end
     retorno
   end
@@ -371,7 +374,7 @@ class Tablero
        for j in 0..8
           celda = filas[i].celdas[j]
           if celda.valor == 0
-            resuelto = false
+             resuelto = false
           end
        end
     end
@@ -382,21 +385,28 @@ class Tablero
   def resolver
    vueltas = 0
    begin
-     cambios = 0
+      cambios = 0
       for i in 0..8
         for j in 0..8
           celda = filas[i].celdas[j]
           v=celda.posible[0]
           if(celda.posible.length == 1 and celda.valor != v)
+		    imprimir "   Asumiendo celda [" + (i+1).to_s + "," + (j+1).to_s + "] = " + v.to_s + ". "
             cambios += 1
          
             k = fccuadro(i,j)    
          
+		    imprimir "Fila " + (i+1).to_s + " ( "
             filas[i].quitar(v)
+			imprimir ") - "
+			imprimir "Columna " + (j+1).to_s + " ( "
             columnas[j].quitar(v)
+			imprimir ") - "
+			imprimir "Cuadro " + (k+1).to_s + " ( "
             cuadros[k].quitar(v)  
+			imprimir ") " + br
            
-            filas[i].celdas[j].valor=v           
+            filas[i].celdas[j].valor=v
           end
         end
       end
@@ -410,7 +420,13 @@ class Tablero
         cambios += cuadros[i].revisar
       end
       vueltas +=1
+	  
+	  imprimir br
+      imprimir verde(" Final vuelta " + vueltas.to_s + ":") + br
+      imprimir to_s + br
+	  
     end while(cambios!=0 and vueltas < 5)
+	
     if not esta_resuelto
        falla=false
        resuelto=false
@@ -481,7 +497,21 @@ end
 
 #Aqui comienza la ejecución
 
+if modo_print == "verbose"
+   imprimir amarillo(" Modo verbose ")
+else
+   puts amarillo(" Modo silencioso")
+end
+
+if modo_color == "color"
+   imprimir blanco("en ") + celeste("c") + amarillo("o") + rojo("l") + verde("o") + violeta("r") + blanco("!!") + br
+else
+   imprimir "en blanco y negro" + br
+end
+
 tablero = Tablero.new
+
+imprimir "Cargando y limpiando tablero... " + br
 
 tablero.cargar([
                
@@ -574,32 +604,31 @@ tablero.cargar([
                #               [0,0,0,0,0,0,0,0,0]                              
 
                #Imposible: 
-                              [0,4,3,0,2,0,8,0,0], 
-                              [7,9,0,0,5,4,0,0,6],
-                              [0,0,0,0,0,0,0,0,9],
-                              [0,0,0,6,0,0,9,0,7],
-                              [0,0,0,5,0,8,0,0,0],
-                              [1,0,7,0,0,2,0,0,0],
-                              [3,0,0,0,0,0,0,0,0],
-                              [0,0,0,4,6,0,0,9,1],
-                              [0,0,5,0,8,0,7,2,0]
+               #               [0,4,3,0,2,0,8,0,0], 
+               #               [7,9,0,0,5,4,0,0,6],
+               #               [0,0,0,0,0,0,0,0,9],
+               #               [0,0,0,6,0,0,9,0,7],
+               #               [0,0,0,5,0,8,0,0,0],
+               #               [1,0,7,0,0,2,0,0,0],
+               #               [3,0,0,0,0,0,0,0,0],
+               #               [0,0,0,4,6,0,0,9,1],
+               #               [0,0,5,0,8,0,7,2,0]
+			   
+								[0,5,0,0,7,0,0,4,0],
+								[0,0,0,0,0,0,0,0,0],
+								[0,0,1,0,0,0,5,0,0],
+								[0,2,7,0,0,0,8,9,0],
+								[6,0,8,0,0,0,4,0,5],
+								[0,0,9,2,0,6,7,0,0],
+								[8,0,0,5,0,7,0,0,1],
+								[0,0,0,0,3,0,0,0,0],
+								[0,0,5,9,1,8,2,0,0]
 
 
 
                ])
 
 puts br
-if modo_print == "verbose"
-   imprimir amarillo(" Modo verbose ")
-else
-   puts amarillo(" Modo silencioso")
-end
-
-if modo_color == "color"
-   imprimir blanco("en ") + celeste("c") + amarillo("o") + rojo("l") + verde("o") + violeta("r") + blanco("!!") + br
-else
-   imprimir "en blanco y negro" + br
-end
 
 imprimir br
 imprimir verde(" Tablero original:") + br
@@ -612,9 +641,6 @@ else
    imprimir rojo(" No fue posible resolver este tablero") + amarillo(" :( ") + celeste("llevo #{vueltas} vueltas") + br
 end
 
-imprimir br
-imprimir verde(" Tablero final:") + br
-imprimir tablero.to_s
 imprimir br
 puts rojo(tablero.stream)
 
