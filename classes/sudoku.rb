@@ -86,8 +86,9 @@ class Celda
   #Metodo quitar. Elimina el valor de los posibles
   def quitar(valor)
     retorno=0
-    if @posible.delete(valor) == valor
-      retorno=1
+      if @posible.delete(valor) == valor
+        retorno=1
+      end
     end
     retorno
   end
@@ -121,14 +122,14 @@ class Grupo
   end
   public :celdas=
   
-  #Metodo quitar. Elimina el valor de los posibles para las celdas del grupo
+  #Metodo quitar. Elimina el valor de los s para las celdas del grupo
   def quitar(valor)
     retorno = 0
     for i in 0..8
       if celdas[i].quitar(valor) > 0
-		imprimir (i+1).to_s + " "
-		retorno += 1
-	  end
+		    #imprimir (i+1).to_s + " "
+		    retorno += 1
+	    end
     end
     retorno
   end
@@ -306,7 +307,7 @@ class Tablero
         actual = filas[i].celdas[j].posible.length
         espacios = maximo - actual
         for k in 1..espacios
-          retorno += verde(" ")
+          retorno += rojo("-")
         end
         if filas[i].celdas[j].valor != 0
            retorno += verde(filas[i].celdas[j].valor.to_s)
@@ -613,19 +614,15 @@ tablero.cargar([
                #               [3,0,0,0,0,0,0,0,0],
                #               [0,0,0,4,6,0,0,9,1],
                #               [0,0,5,0,8,0,7,2,0]
-			   
-								[0,5,0,0,7,0,0,4,0],
-								[0,0,0,0,0,0,0,0,0],
-								[0,0,1,0,0,0,5,0,0],
-								[0,2,7,0,0,0,8,9,0],
-								[6,0,8,0,0,0,4,0,5],
-								[0,0,9,2,0,6,7,0,0],
-								[8,0,0,5,0,7,0,0,1],
-								[0,0,0,0,3,0,0,0,0],
-								[0,0,5,9,1,8,2,0,0]
-
-
-
+								[0,0,0,1,0,0,6,5,0],
+								[6,0,0,0,0,4,0,0,0],
+								[1,0,5,2,6,3,7,0,4],
+								[0,5,2,0,0,6,4,0,9],
+								[0,1,0,0,0,0,8,0,5],
+								[8,0,9,0,3,5,0,7,2],
+								[0,7,0,0,0,1,0,2,8],
+								[2,8,0,0,0,7,3,4,6],
+								[0,0,6,0,0,8,0,1,7]
                ])
 
 puts br
